@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import web.model.User;
 import web.service.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,14 +25,22 @@ public class UserController {
     }
     @GetMapping(value = "/deleteUser")
     public String deleteUser(HttpServletRequest hsr, ModelMap model) throws SQLException {
-        String id = hsr.getParameter("href");
-        System.out.println(id);
-//        if(counter == null){
-//            counter = "0";
-//        }
+        String id = hsr.getParameter("id");
+        System.out.println("Delete  " + id);
         service.removeUserById(Integer.parseInt(id));
         model.addAttribute("users", service.getAllUsers());
-        return "deleteUser";
+        return "index";
+    }
+
+    @GetMapping(value = "/editUser")
+    @PostMapping("/edit")
+    public String editUser(@RequestParam String name, Model model) throws SQLException {
+
+        System.out.println(name);
+//        User tmp = service.getUser(Long.parseLong(id));
+//        tmp.setName(name);
+        model.addAttribute("users", service.getAllUsers());
+        return "index";
     }
 
     @GetMapping(value = "/addUser")
@@ -48,11 +55,6 @@ public class UserController {
             service.saveUser(name, lastName, Byte.parseByte(age));
         }
         model.addAttribute("users", service.getAllUsers());
-        return "addUser";
-    }
-    @GetMapping(value = "/editUser")
-    public String editUser(ModelMap model) throws SQLException {
-        model.addAttribute("users", service.getAllUsers());
-        return "editUser";
+        return "index";
     }
 }

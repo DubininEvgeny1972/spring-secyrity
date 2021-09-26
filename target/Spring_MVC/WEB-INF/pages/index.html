@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">
 
 <body>
+
 <table border="1">
     <tr>
         <th>Name</th>
@@ -10,29 +11,49 @@
     </tr>
 
     <tr th:each="user, state : ${users}">
-        <td th:utext="${user.getName()}">Name</td>
-        <td th:utext="${user.getLastName()}">Last Name</td>
-        <td th:utext="${user.getAge()}">Age</td>
         <td>
-        <form method="del" action="deleteUser/">
-            <input type="submit" th:href="@{/users/{id}/edit(id=${user.getId()})}" value=" Delete User "/>
-        </form>
+            <form method="edit" action="edit/">
+                <p><input th:value="${user.getName()}" id="name"></p>
+                <a type="button" th:href="@{editUser(id=${user.getId()})}">   Edit   </a>
+            </form>
+        </td>
+            
+        <td><p><input th:value="${user.getLastName()}" id="lastname"></p></td>
+        <td><p><input th:value="${user.getAge()}" id="age"></p></td>
+        <td>
+            <form method="del" action="del/">
+                <a type="button" th:href="@{deleteUser(id=${user.getId()})}" >  Delete this user  </a>
+            </form>
         </td>
         <td>
-            <form method="edit" action="editUser/">
-                <input type="submit" th:href="@{/users/{id}/edit(id=${user.getId()})}" value=" Edit User "/>
+            <form method="ed" action="ed/">
+                <a type="button" th:href="@{editUser(id=${user.getId()})}">   Edit   </a>
             </form>
         </td>
     </tr>
 </table>
+<table border="1">
+    <tr>
+        <td><p><input ></p></td>
 
-<form method="edit" action="addUser/">
+        <td><p><input ></p></td>
+        <td><p><input ></p></td>
+        <td>
+            <form method="edit" action="addUser/">
+                <input type="submit" value=" Add User "/>
+            </form>
+        </td>
+    </tr>
+</table>
+<form method="add" action="addUser/">
     <input type="submit" value=" Add User "/>
+
 </form>
 
-<form action="#" th:action="@{/processForm}" th:object="${foo}" method="post">
-    <input type="text" th:field="*{bar}" />
-    <input type="submit" />
+<form action="editUser/" method="post">
+    <p>ma: <input type="text" name="name" /></p>
+    <p>ag: <input type="text" name="age" /></p>
+    <p><input type="submit" /></p>
 </form>
 
 </body>

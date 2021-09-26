@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    <p> Имя: <?php echo $_POST['name']; ?>.</p>
+    <p> Возраст: <?php echo $_POST['age']; ?> </p>
+</form>
+    <p><strong>Set new Name User</strong></p>
+    <p><input maxlength="25" size="40" >Имя</p>
+
+
+    <form method="editUser" action="/spring_mvc_CRUD_war/">
+        <input type="submit" value=" Ok "/>
+    </form>
+</body>
+</html>
