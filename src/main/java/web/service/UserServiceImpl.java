@@ -11,14 +11,14 @@ import java.util.List;
 public class UserServiceImpl {
     static final UserDaoHibernateImpl userDaoHiber = new UserDaoHibernateImpl();
 
-    public List<User> starts(){
-        userDaoHiber.createUsersTable();
-        userDaoHiber.saveUser("Ivan", "Ivanov", (byte) 25);
-        userDaoHiber.saveUser("Jon", "Lennon", (byte) 35);
-        userDaoHiber.saveUser("Bob", "Dillan", (byte) 52);
-        userDaoHiber.saveUser("Kirk", "Duglas", (byte) 48);
-        return userDaoHiber.getAllUsers();
+    public static void setIdd(long idd) {
+        userDaoHiber.setIdd(idd);
     }
+
+    public long getIdd(){
+        return userDaoHiber.getIdd();
+    }
+
 
     public void createUsersTable() throws SQLException {
         userDaoHiber.createUsersTable();
@@ -26,6 +26,10 @@ public class UserServiceImpl {
 
     public void dropUsersTable() throws SQLException {
         userDaoHiber.dropUsersTable();
+    }
+
+    public User getUser(Long id){
+        return userDaoHiber.getUser(id);
     }
 
     public void saveUser(String name, String lastName, byte age) throws SQLException {

@@ -11,6 +11,8 @@ public interface UserService {
 
     void dropUsersTable() throws SQLException, ClassNotFoundException;
 
+    User getUser(Long id);
+
     void saveUser(String name, String lastName, byte age) throws SQLException;
 
     void removeUserById(long id) throws SQLException;

@@ -1,15 +1,39 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">
+
 <body>
-<div>
-    <th:block th:each="msg : ${messages}">
-        <h1 th:text="${msg}"></h1>
-    </th:block>
-</div>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+    </tr>
+
+    <tr th:each="user, state : ${users}">
+        <td th:utext="${user.getName()}">Name</td>
+        <td th:utext="${user.getLastName()}">Last Name</td>
+        <td th:utext="${user.getAge()}">Age</td>
+        <td>
+        <form method="del" action="deleteUser/">
+            <input type="submit" th:href="@{/users/{id}/edit(id=${user.getId()})}" value=" Delete User "/>
+        </form>
+        </td>
+        <td>
+            <form method="edit" action="editUser/">
+                <input type="submit" th:href="@{/users/{id}/edit(id=${user.getId()})}" value=" Edit User "/>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<form method="edit" action="addUser/">
+    <input type="submit" value=" Add User "/>
+</form>
+
+<form action="#" th:action="@{/processForm}" th:object="${foo}" method="post">
+    <input type="text" th:field="*{bar}" />
+    <input type="submit" />
+</form>
+
 </body>
 </html>
