@@ -45,7 +45,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-
         EntityManager em = Util.getSessionFactory().createEntityManager();
         em.getTransaction().begin();
         em.persist(new User(name, lastName, age));
@@ -73,10 +72,5 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        EntityManager em = Util.getSessionFactory().createEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("delete from User");
-        System.out.println("Delete!");
-        em.getTransaction().commit();
     }
 }

@@ -2,10 +2,8 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import web.model.User;
 import web.service.UserServiceImpl;
 
@@ -18,11 +16,12 @@ public class UserController {
     @Autowired
     private UserServiceImpl service;
 
-    @GetMapping(value = "/")
+    @GetMapping()
     public String showUsers(HttpServletRequest hsr, ModelMap model) throws SQLException {
         model.addAttribute("users", service.getAllUsers());
         return "index";
     }
+
     @GetMapping(value = "/deleteUser")
     public String deleteUser(HttpServletRequest hsr, ModelMap model) throws SQLException {
         String id = hsr.getParameter("id");
@@ -32,29 +31,32 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping(value = "/editUser")
-    @PostMapping("/edit")
-    public String editUser(@RequestParam String name, Model model) throws SQLException {
-
-        System.out.println(name);
+//    @GetMapping(value = "/edit")
+//    public String getUser(HttpServletRequest hsr, ModelMap model) {
+//        String id = hsr.getParameter("id");
+//        System.out.println("Edit  " + id);
 //        User tmp = service.getUser(Long.parseLong(id));
-//        tmp.setName(name);
-        model.addAttribute("users", service.getAllUsers());
-        return "index";
+//        model.addAttribute("user", tmp);
+//        return "edit";
+//    }
+//    @PostMapping
+//    public String editUser(@ModelAttribute("user") User user) {
+//        User tmp = service.getUser((user.getId()));
+//        tmp.setName(user.getName());
+//        tmp.setLastName(user.getLastName());
+//        tmp.setAge(user.getAge());
+//        return "redirect:/";
+//    }
+
+    @GetMapping(value = "/new")
+    public String addUser(ModelMap model) throws SQLException {
+        model.addAttribute("user", new User());
+        return "new";
     }
 
-    @GetMapping(value = "/addUser")
-    public String addUser(HttpServletRequest hsr, ModelMap model) throws SQLException {
-        String name = hsr.getParameter("name");
-        String lastName = hsr.getParameter("lastName");
-        String age = hsr.getParameter("age");
-        System.out.println(name + "   " + lastName + "   " + age);
-        if(name == null || lastName == null || age == null){
-            model.addAttribute("users", service.getAllUsers());
-        } else {
-            service.saveUser(name, lastName, Byte.parseByte(age));
-        }
-        model.addAttribute("users", service.getAllUsers());
-        return "index";
+    @PostMapping
+    public String createNewUser(@ModelAttribute("user") User user) throws SQLException {
+        service.saveUser(user.getName(), user.getLastName(),user.getAge());
+        return "redirect:/";
     }
 }

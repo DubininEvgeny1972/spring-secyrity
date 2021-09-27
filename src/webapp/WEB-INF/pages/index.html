@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns: lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
 <body>
 
 <table border="1">
@@ -11,50 +14,22 @@
     </tr>
 
     <tr th:each="user, state : ${users}">
-        <td>
-            <form method="edit" action="edit/">
-                <p><input th:value="${user.getName()}" id="name"></p>
-                <a type="button" th:href="@{editUser(id=${user.getId()})}">   Edit   </a>
-            </form>
-        </td>
-
-        <td><p><input th:value="${user.getLastName()}" id="lastname"></p></td>
-        <td><p><input th:value="${user.getAge()}" id="age"></p></td>
+        <td th:utext="${user.getName()}"></td>
+        <td th:utext="${user.getLastName()}"></td>
+        <td th:utext="${user.getAge()}"></td>
         <td>
             <form method="del" action="del/">
-                <a type="button" th:href="@{deleteUser(id=${user.getId()})}" >  Delete this user  </a>
+                <a type="button" th:href="@{deleteUser(id=${user.getId()})}"> Delete this user </a>
             </form>
         </td>
         <td>
-            <form method="ed" action="ed/">
-                <a type="button" th:href="@{editUser(id=${user.getId()})}">   Edit   </a>
+            <form method="ed" action="@{edit/}">
+                <a type="button" th:href="@{getUser(id=${user.getId()})}"> Edit this user </a>
             </form>
+
         </td>
     </tr>
+
 </table>
-<table border="1">
-    <tr>
-        <td><p><input ></p></td>
-
-        <td><p><input ></p></td>
-        <td><p><input ></p></td>
-        <td>
-            <form method="edit" action="addUser/">
-                <input type="submit" value=" Add User "/>
-            </form>
-        </td>
-    </tr>
-</table>
-<form method="add" action="addUser/">
-    <input type="submit" value=" Add User "/>
-
-</form>
-
-<form action="editUser/" method="post">
-    <p>ma: <input type="text" name="name" /></p>
-    <p>ag: <input type="text" name="age" /></p>
-    <p><input type="submit" /></p>
-</form>
-
 </body>
 </html>
