@@ -43,29 +43,6 @@ public class Util {
                 e.printStackTrace();
             }
         }
-
-//        if (sessionFactory == null) {
-//            try {
-//                Configuration configuration = new Configuration();
-//                Properties settings = new Properties();
-//                settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-//                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/User?useSSL=false");
-//                settings.put(Environment.USER, "root");
-//                settings.put(Environment.PASS, "root");
-//
-//                configuration.setProperties(settings);
-//                configuration.addAnnotatedClass(User.class);
-//
-//                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-//                        .applySettings(configuration.getProperties()).build();
-//
-//                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        return sessionFactory;
         return entityManagerFactory;
     }
 }

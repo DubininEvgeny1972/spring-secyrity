@@ -24,12 +24,14 @@
         </td>
         <td>
             <form method="ed" action="@{edit/}">
-                <a type="button" th:href="@{getUser(id=${user.getId()})}"> Edit this user </a>
+                <a type="button" th:href="@{edit(id=${user.getId()})}"> Edit this user </a>
             </form>
 
         </td>
     </tr>
-
+    </td>
+    <a type="button" th:href="@{new/}"> Add User </a>
+    </td>
 </table>
 </body>
 </html>

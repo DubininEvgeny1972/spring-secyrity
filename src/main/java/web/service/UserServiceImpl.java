@@ -3,7 +3,6 @@ package web.service;
 import org.springframework.stereotype.Component;
 import web.dao.UserDaoHibernateImpl;
 import web.model.User;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,41 +10,22 @@ import java.util.List;
 public class UserServiceImpl {
     static final UserDaoHibernateImpl userDaoHiber = new UserDaoHibernateImpl();
 
-    public static void setIdd(long idd) {
-        userDaoHiber.setIdd(idd);
-    }
-
-    public long getIdd(){
-        return userDaoHiber.getIdd();
-    }
-
-
-    public void createUsersTable() throws SQLException {
-        userDaoHiber.createUsersTable();
-    }
-
-    public void dropUsersTable() throws SQLException {
-        userDaoHiber.dropUsersTable();
-    }
-
     public User getUser(Long id){
         return userDaoHiber.getUser(id);
     }
 
-    public void saveUser(String name, String lastName, byte age) throws SQLException {
+    public void saveUser(String name, String lastName, byte age){
         userDaoHiber.saveUser(name, lastName, age);
     }
 
-    public void removeUserById(long id) throws SQLException {
+    public void removeUserById(long id){
         userDaoHiber.removeUserById(id);
     }
 
-    public List<User> getAllUsers() throws SQLException {
+    public List<User> getAllUsers(){
         return userDaoHiber.getAllUsers();
     }
-
-    public void cleanUsersTable() throws SQLException {
-        userDaoHiber.cleanUsersTable();
+    public void updateUser(User user) {
+        userDaoHiber.updateUser(user);
     }
-
 }

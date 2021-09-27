@@ -9,8 +9,9 @@ Edit User:
 
 <br/>
 <br/>
-<form th:method="POST" th:action="@{/}" th:object="${user}">
+<form th:method="PATCH" th:action="@{/}" th:object="${user}">
     <label for="name">Enter new Name</label>
+    <input type="hidden" th:field="*{id}" id="id">
     <input type="text" th:field="*{name}" id="name">
     <br/>
     <br/>

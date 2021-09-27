@@ -1,35 +1,30 @@
 package web.dao;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.stereotype.Component;
 import web.model.User;
 import web.util.Util;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Component
 public class UserDaoHibernateImpl implements UserDao {
 
-    private static long idd = 1;
     public UserDaoHibernateImpl() {
-
     }
 
-    public static void setIdd(long idd) {
-        UserDaoHibernateImpl.idd = idd;
+
+    public void updateUser(User user) {
+        EntityManager em = Util.getSessionFactory().createEntityManager();
+        User tmp = getUser(user.getId());
+        em.detach(tmp);
+        tmp.setName(user.getName());
+        tmp.setLastName(user.getLastName());
+        tmp.setAge(user.getAge());
+        em.getTransaction().begin();
+        em.merge(tmp);
+        em.getTransaction().commit();
     }
 
-    public long getIdd(){
-        return idd;
-    }
-
-    @Override
-    public void createUsersTable() {
-    }
 
     @Override
     public User getUser(Long id) {
@@ -37,10 +32,6 @@ public class UserDaoHibernateImpl implements UserDao {
         User user = em.find(User.class, new Long(id));
         em.detach(user);
         return user;
-    }
-
-    @Override
-    public void dropUsersTable() {
     }
 
     @Override
@@ -68,9 +59,5 @@ public class UserDaoHibernateImpl implements UserDao {
         em.getTransaction().begin();
         List users = em.createQuery("from User ").getResultList();
         return users;
-    }
-
-    @Override
-    public void cleanUsersTable() {
     }
 }
