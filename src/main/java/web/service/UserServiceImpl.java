@@ -1,14 +1,19 @@
 package web.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import web.dao.UserDao;
 import web.dao.UserDaoHibernateImpl;
 import web.model.User;
 import java.sql.SQLException;
 import java.util.List;
 
-@Component
-public class UserServiceImpl {
-    static final UserDaoHibernateImpl userDaoHiber = new UserDaoHibernateImpl();
+@Service
+public class UserServiceImpl implements UserService{
+
+    @Autowired
+    private UserDao userDaoHiber;
 
     public User getUser(Long id){
         return userDaoHiber.getUser(id);
@@ -25,6 +30,7 @@ public class UserServiceImpl {
     public List<User> getAllUsers(){
         return userDaoHiber.getAllUsers();
     }
+
     public void updateUser(User user) {
         userDaoHiber.updateUser(user);
     }

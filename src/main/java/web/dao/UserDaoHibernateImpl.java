@@ -1,20 +1,24 @@
 package web.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import web.model.User;
-import web.util.Util;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
-@Component
+@Repository
 public class UserDaoHibernateImpl implements UserDao {
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
 
     public UserDaoHibernateImpl() {
     }
 
 
     public void updateUser(User user) {
-        EntityManager em = Util.getSessionFactory().createEntityManager();
+        EntityManager em = entityManagerFactory.createEntityManager();
         User tmp = getUser(user.getId());
         em.detach(tmp);
         tmp.setName(user.getName());
@@ -28,7 +32,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public User getUser(Long id) {
-        EntityManager em = Util.getSessionFactory().createEntityManager();
+        EntityManager em = entityManagerFactory.createEntityManager();
         User user = em.find(User.class, new Long(id));
         em.detach(user);
         return user;
@@ -36,7 +40,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        EntityManager em = Util.getSessionFactory().createEntityManager();
+        EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         em.persist(new User(name, lastName, age));
         em.getTransaction().commit();
@@ -46,7 +50,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        EntityManager em = Util.getSessionFactory().createEntityManager();
+        EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         User user = em.find(User.class, new Long(id));
         em.remove(user);
@@ -55,7 +59,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List getAllUsers() {
-        EntityManager em = Util.getSessionFactory().createEntityManager();
+        EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         List users = em.createQuery("from User ").getResultList();
         return users;

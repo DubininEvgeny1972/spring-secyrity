@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
-import web.service.UserServiceImpl;
+import web.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class UserController {
 
     @Autowired
-    private UserServiceImpl service;
+    private UserService service;
 
     @GetMapping()
     public String showUsers(ModelMap model) throws SQLException {
