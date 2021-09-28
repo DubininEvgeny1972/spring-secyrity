@@ -1,21 +1,21 @@
 package web.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import web.model.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Repository
 public class UserDaoHibernateImpl implements UserDao {
-    @Autowired
+
     EntityManagerFactory entityManagerFactory;
 
-    public UserDaoHibernateImpl() {
+    public UserDaoHibernateImpl(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
-
 
     public void updateUser(User user) {
         EntityManager em = entityManagerFactory.createEntityManager();

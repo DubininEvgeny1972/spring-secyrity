@@ -10,6 +10,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
@@ -53,4 +54,5 @@ public class AppConfig {
         transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
     }
+
 }
