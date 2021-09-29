@@ -1,6 +1,7 @@
 package web.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
@@ -22,34 +23,32 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping(value = "/deleteUser")
+    @GetMapping("/deleteUser")
     public String deleteUser(@RequestParam("id") long id, ModelMap model){
         service.removeUserById(id);
         model.addAttribute("users", service.getAllUsers());
         return "redirect:/";
     }
-
-    @GetMapping(value = "/edit")
-    public String getUser(@RequestParam("id") long id, ModelMap model){
+    @GetMapping("/{id}/edit")
+    public String edit(ModelMap model, @PathVariable("id") long id) {
         model.addAttribute("user", service.getUser(id));
         return "edit";
     }
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     public String editUser(@ModelAttribute("user") User user) {
         service.updateUser(user);
         return "redirect:/";
     }
 
-    @GetMapping(value = "/new")
-    public String addUser(ModelMap model){
-        model.addAttribute("user", new User());
+    @GetMapping("/new")
+    public String addUser(@ModelAttribute("user") User user){
         return "new";
     }
 
     @PostMapping
     public String createNewUser(@ModelAttribute("user") User user){
-        service.saveUser(user.getName(), user.getLastName(),user.getAge());
+        service.saveUser(user);
         return "redirect:/";
     }
 }

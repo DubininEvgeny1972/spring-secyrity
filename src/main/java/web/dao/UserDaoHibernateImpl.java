@@ -22,8 +22,8 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public void saveUser(String name, String lastName, byte age) {
-        em.persist(new User(name, lastName, age));
+    public void saveUser(User user) {
+        em.persist(user);
     }
 
     @Override

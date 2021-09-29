@@ -11,7 +11,7 @@ public interface UserDao {
 
     List<User> getAllUsers();
 
-    void saveUser(String name, String lastName, byte age);
+    void saveUser(User user);
 
     void updateUser(User user);
 }
