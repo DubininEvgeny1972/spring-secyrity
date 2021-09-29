@@ -18,7 +18,7 @@
         <td th:utext="${user.getLastName()}"></td>
         <td th:utext="${user.getAge()}"></td>
         <td>
-            <a type="button" th:href="@{deleteUser(id=${user.getId()})}"> Delete this user </a>
+            <a type="button" th:href="@{{id}/deleteUser(id=${user.getId()})}"> Delete this user </a>
         </td>
         <td>
             <a th:href="@{{id}/edit(id=${user.getId()})}"> Edit this user </a>
