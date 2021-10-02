@@ -16,9 +16,9 @@ public class UserController {
         this.service = service;
     }
 
-    @PostMapping("/admin")
-    public String fingUserById(ModelMap model, @PathVariable("name") String name, @PathVariable("name") String password) {
-        model.addAttribute("user", service.getUserByUsername(name));
-        return "showuser";
-    }
+//    @PostMapping("/admin")
+//    public String fingUserById(ModelMap model, @PathVariable("name") String name, @PathVariable("name") String password) {
+//        model.addAttribute("user", service.getUserByUsername(name));
+//        return "showuser";
+//    }
 }

@@ -21,11 +21,11 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public UserDetails getUserByUsername(String userName) {
         System.out.println(userName);
-        User user = em.createQuery("select userByUsername from User userByUsername where userByUsername.userName = :usName", User.class)
-                .setParameter("usName", userName)
-                .getSingleResult();
-        System.out.println(user);
-        System.out.println(user.getName()+"  "+user.getLastName()+"  "+user.getPassword()+"  "+user.getRoles());
+//        User user = em.createQuery("select userByUsername from User userByUsername where userByUsername.userName = :usName", User.class)
+//                .setParameter("usName", userName)
+//                .getSingleResult();
+//        System.out.println(user);
+//        System.out.println(user.getName()+"  "+user.getLastName()+"  "+user.getPassword()+"  "+user.getRoles());
         return em.createQuery("select userByUsername from User userByUsername where userByUsername.userName = :usName", User.class)
                 .setParameter("usName", userName)
                 .getSingleResult();

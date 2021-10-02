@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    <form name="f" th:action="@{/perform-login}" method="post">
+    <form name="f" th:action="@{/login_validate}" method="post">
         <fieldset>
             <legend>Welcome</legend>
             <div th:if="${param.error}" class="alert alert-error">
