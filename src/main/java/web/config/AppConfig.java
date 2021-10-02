@@ -7,8 +7,12 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import web.service.UserService;
+import web.service.UserServiceImpl;
+
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
@@ -25,6 +29,7 @@ public class AppConfig {
     public AppConfig(Environment env) {
         this.env = env;
     }
+
 
     @Bean
     public DataSource dataSource() throws PropertyVetoException {

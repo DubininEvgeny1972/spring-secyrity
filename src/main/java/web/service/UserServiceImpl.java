@@ -1,5 +1,7 @@
 package web.service;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
@@ -13,6 +15,12 @@ public class UserServiceImpl implements UserService{
 
     public UserServiceImpl(UserDao userDaoHiber) {
         this.userDaoHiber = userDaoHiber;
+    }
+
+    @Transactional
+    @Override
+    public UserDetails getUserByUsername(String userName){
+        return userDaoHiber.getUserByUsername(userName);
     }
 
     @Transactional

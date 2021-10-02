@@ -16,37 +16,9 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping()
-    public String showUsers(ModelMap model){
-        model.addAttribute("users", service.getAllUsers());
-        return "index";
-    }
-
-    @GetMapping("/{id}/deleteUser")
-    public String deleteUser(@PathVariable("id") long id){
-        service.removeUserById(id);
-        return "redirect:/";
-    }
-    @GetMapping("/{id}/edit")
-    public String edit(ModelMap model, @PathVariable("id") long id) {
-        model.addAttribute("user", service.getUser(id));
-        return "edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String editUser(@ModelAttribute("user") User user) {
-        service.updateUser(user);
-        return "redirect:/";
-    }
-
-    @GetMapping("/new")
-    public String addUser(@ModelAttribute("user") User user){
-        return "new";
-    }
-
-    @PostMapping
-    public String createNewUser(@ModelAttribute("user") User user){
-        service.saveUser(user);
-        return "redirect:/";
+    @PostMapping("/admin")
+    public String fingUserById(ModelMap model, @PathVariable("name") String name, @PathVariable("name") String password) {
+        model.addAttribute("user", service.getUserByUsername(name));
+        return "showuser";
     }
 }

@@ -1,5 +1,7 @@
 package web.dao;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import web.model.User;
 import javax.persistence.EntityManager;
@@ -14,6 +16,19 @@ public class UserDaoHibernateImpl implements UserDao {
 
     public void updateUser(User user) {
         em.merge(user);
+    }
+
+    @Override
+    public UserDetails getUserByUsername(String userName) {
+        System.out.println(userName);
+        User user = em.createQuery("select userByUsername from User userByUsername where userByUsername.userName = :usName", User.class)
+                .setParameter("usName", userName)
+                .getSingleResult();
+        System.out.println(user);
+        System.out.println(user.getName()+"  "+user.getLastName()+"  "+user.getPassword()+"  "+user.getRoles());
+        return em.createQuery("select userByUsername from User userByUsername where userByUsername.userName = :usName", User.class)
+                .setParameter("usName", userName)
+                .getSingleResult();
     }
 
     @Override
