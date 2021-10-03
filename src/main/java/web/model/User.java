@@ -1,5 +1,6 @@
 package web.model;
 
+import com.sun.org.apache.xpath.internal.objects.XString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,7 +28,6 @@ public class User implements UserDetails {
     private Byte age;
 
 
-
     public User() {
     }
     @Column
@@ -41,8 +41,11 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
 
-    public User(Long id, String userName, String name, String lastName, String password, Set<Role> roles) {
-        this.id = id;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public User(String userName, String name, String lastName, String password, Set<Role> roles) {
         this.userName = userName;
         this.name = name;
         this.lastName = lastName;

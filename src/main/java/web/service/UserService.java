@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDetails getUserByUsername(String userName);
+    User getUserByUsername(String userName);
 
     User getUser(Long id);
 

@@ -1,6 +1,7 @@
 package web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,8 +22,13 @@ import web.service.UserService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private CustomUserDetailsService userDetailsService;
-
+    private CustomUserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
+    private LoginSuccessHandler loginSuccessHandler; // класс, в котором описана логика перенаправления пользователей по ролям
+//
+    public SecurityConfig(CustomUserDetailsService userDetailsService, LoginSuccessHandler loginSuccessHandler) {
+        this.userDetailsService = userDetailsService;
+        this.loginSuccessHandler = loginSuccessHandler;
+    }
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
@@ -36,18 +42,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(filter, CsrfFilter.class);
         http.formLogin()
                 // указываем страницу с формой логина
-//                .loginPage("/login")
+                .loginPage("/login")
                 //указываем логику обработки при логине
                 .successHandler(new LoginSuccessHandler())
                 // указываем action с формы логина
-//                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/login")
                 // Указываем параметры логина и пароля с формы логина
-//                .usernameParameter("user")
-//                .passwordParameter("pass")
-//                .loginProcessingUrl("/perform-login")
-                .defaultSuccessUrl("/")
+                .usernameParameter("j_username")
+                .passwordParameter("j_password")
                 // даем доступ к форме логина всем
-                .permitAll().and().formLogin();
+                .permitAll();
 
         http.logout()
                 // разрешаем делать логаут всем
@@ -56,21 +60,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 // указываем URL при удачном логауте
                 .logoutSuccessUrl("/login?logout")
-                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
-                .and().csrf().disable();
+                //выключаем кросс-доменную секьюрность (на этапе обучения неважна)
+                .and().csrf().disable(); //- попробуйте выяснить сами, что это даёт
 
         http
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
-                //страницы аутентификаци доступна всем
-                .antMatchers("/login").anonymous()
-                //страница, доступная админу
-                .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                //страницаЮ доступная юзеру
-                .antMatchers("/user/**").authenticated()
+                .antMatchers("/login").permitAll() // доступность всем
+                .antMatchers("/showuser").hasRole("USER")
+                .antMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated();
-//                .and().formLogin();
-
     }
 
     @Bean
