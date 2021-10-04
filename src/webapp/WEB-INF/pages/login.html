@@ -6,6 +6,9 @@
     <title></title>
 </head>
 <body>
+<th:authorize access="isAuthenticated()">
+    <% response.sendRedirect("/"); %>
+</th:authorize>
 <div>
     <form method="post" action="/login">
         <h2>Вход в систему</h2>

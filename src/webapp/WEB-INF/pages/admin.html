@@ -17,6 +17,9 @@
         <td th:utext="${user.getName()}"></td>
         <td th:utext="${user.getLastName()}"></td>
         <td th:utext="${user.getAge()}"></td>
+        <td th:utext="${user.getLogin()()}"></td>
+        <td th:utext="${user.getPassword()()}"></td>
+        <td th:utext="${user.getRoles()}"></td>
         <td>
             <a type="button" th:href="@{{id}/deleteUser(id=${user.getId()})}"> Delete this user </a>
         </td>

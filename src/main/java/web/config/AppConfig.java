@@ -43,16 +43,6 @@ public class AppConfig {
         return dataSource;
     }
 
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws PropertyVetoException {
-//        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean(); // HibernateExceptions, PersistenceExceptions... to DataAccessException
-//        em.setDataSource(dataSource());
-//        em.setPackagesToScan("web.model");
-//        em.setJpaVendorAdapter(vendorAdapter);
-//        return em;
-//    }
-
 
     @Bean
     public LocalContainerEntityManagerFactoryBean getEntityManagerFactoryBean()  throws PropertyVetoException {
@@ -61,7 +51,6 @@ public class AppConfig {
 
         entityManagerFactory.setDataSource(dataSource());
         entityManagerFactory.setPackagesToScan("web.model");
-//        entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
 

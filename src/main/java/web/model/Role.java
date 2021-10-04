@@ -12,51 +12,42 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String role;
-    @ManyToMany
-    @JoinTable(name = "roles_users",
-            //foreign key for CarsEntity in employee_car table
-            joinColumns = @JoinColumn(name = "role_id"),
-            //foreign key for other side - EmployeeEntity in employee_car table
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private String name;
 
-//    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+//    private Set<User> users = new HashSet<>();
+//
+//    public void setUsers(Set<User> users) {
+//        this.users = users;
+//    }
+//    public Set<User> getUsers() {
+//        return users;
+//    }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-    public Set<User> getUsers() {
-        return users;
+    public Role(String name) {
+        this.name = name;
     }
 
-    public Role(String role) {
-        this.role = role;
+    public Role(Long id) {
+        this.id = id;
     }
 
     public Role() {
     }
 
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
-
-//    public String getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(String role) {
-//        this.role = role;
-//    }
-
 
 
     @Override
     public String getAuthority() {
-        return role;
+        return getName();
+    }
+    @Override
+    public String toString() {
+        return String.format("Role [id = %d; name = %s;]", id, name);
     }
 }
