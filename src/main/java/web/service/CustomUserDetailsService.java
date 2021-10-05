@@ -43,10 +43,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (myUser == null) {
             throw new UsernameNotFoundException("Unknown user: "+userName);
         }
-        System.out.println(myUser);
+        System.out.println("Я из UDS  " + myUser);
         List<GrantedAuthority> roleList = getAuthoritiesEntities(myUser.getRoles());
         org.springframework.security.core.userdetails.User usd = new org.springframework.security.core.userdetails.User(myUser.getLogin(), myUser.getPassword(), roleList);
-        System.out.println("Name: " + usd.getUsername() + "  Passw: " + usd.getPassword() + "  Autorised: " + usd.getAuthorities());
+//        System.out.println("Name: " + usd.getUsername() + "  Passw: " + usd.getPassword() + "  Autorised: " + usd.getAuthorities());
         return usd;
     }
 }

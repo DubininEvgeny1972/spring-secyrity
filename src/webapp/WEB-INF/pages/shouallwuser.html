@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns: lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Show All User</title>
 </head>
 <body>
 
@@ -32,13 +32,19 @@
     </tr>
 </table>
 <br/>
+<br/>
 </td>
 <a type="button" th:href="@{/admin/new/}"> Добавить юзера </a>
 </td>
 <br/>
+<br/>
 </td>
 <a type="button" th:href="@{/user/thisuser}"> Личная страничка </a>
 </td>
-
+<br/>
+<br/>
+</td>
+<a type="button" th:href="@{/}"> Выход </a>
+</td>
 </body>
 </html>

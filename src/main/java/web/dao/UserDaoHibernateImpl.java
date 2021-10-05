@@ -1,5 +1,8 @@
 package web.dao;
 
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import web.model.Role;
 import web.model.User;
@@ -22,11 +25,10 @@ public class UserDaoHibernateImpl implements UserDao {
         em.merge(user);
     }
 
-
     @PostConstruct
     public void startProject() {
         System.out.println("Hello!");
-//        Role role1 = new Role("ROLE_ADMIN");
+//        Role role1 = new Role("ROLE_VIP");
 //        saveRole(role1);
 //        Role role2 = new Role("ROLE_USER");
 //        saveRole(role2);
@@ -70,8 +72,22 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public void saveUser(User user) {
-        em.persist(user);
+    public boolean saveUser(User user) {
+        User tmpUser = getUserByUsername(user.getName());
+        System.out.println("TmpUser   " + tmpUser);
+        if (tmpUser != null) {
+            return false;
+        }
+        if (user.getRoles() == null) {
+            System.out.println("No roles!");
+            user.setRoles(Collections.singleton(new Role("ROLE_USER")));
+            em.persist(user);
+            System.out.println("Ok! Roles = USER");
+        } else {
+            em.persist(user);
+            System.out.println("Ok!");
+        }
+        return true;
     }
 
     @Override

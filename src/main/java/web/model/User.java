@@ -11,6 +11,10 @@ import java.util.Set;
 
 @Entity
 public class User implements UserDetails {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,10 +34,6 @@ public class User implements UserDetails {
     @Column
     private String password;
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
     @Transient
     private String passwordConfirm;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -42,20 +42,11 @@ public class User implements UserDetails {
             inverseJoinColumns = { @JoinColumn(name = "role_id") })
     private Set<Role> roles = new HashSet<>();
 
-//        public User(String login, String name, String lastName, String password, Byte age) {
-//        this.login = login;
-//        this.name = name;
-//        this.lastName = lastName;
-//        this.password = password;
-//        this.age = age;
-////        this.roles = roles;
-//    }
-
     public User() {
     }
 
     public String toString(){
-        return "Name: " + getName() + "   Last Name: " + getLastName() + "  Age: " + getAge() + "   Login: " + getLogin() + "   Password: " + getPassword() + "   Roles: " + getRoles().toString();
+        return "Id:  " + getId() + "  Name: " + getName() + "   Last Name: " + getLastName() + "  Age: " + getAge() + "   Login: " + getLogin() + "   Password: " + getPassword() + "   Roles: " + getRoles().toString();
     }
 
     public Long getId() {
@@ -69,14 +60,12 @@ public class User implements UserDetails {
         this.name = name;
     }
 
-
     public String getLastName() {
         return lastName;
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 
     public Byte getAge() {
         return age;
@@ -98,12 +87,10 @@ public class User implements UserDetails {
         return null;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
-
 
     public String getLogin() {
         return login;
@@ -131,7 +118,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
     public Set<Role> getRoles() {
         return roles;
