@@ -72,22 +72,13 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public boolean saveUser(User user) {
-        User tmpUser = getUserByUsername(user.getName());
-        System.out.println("TmpUser   " + tmpUser);
-        if (tmpUser != null) {
-            return false;
-        }
-        if (user.getRoles() == null) {
-            System.out.println("No roles!");
-            user.setRoles(Collections.singleton(new Role("ROLE_USER")));
-            em.persist(user);
-            System.out.println("Ok! Roles = USER");
-        } else {
-            em.persist(user);
-            System.out.println("Ok!");
-        }
-        return true;
+    public void saveUser(User user) {
+        System.out.println("Пытаюсь записать  "  + user.getLogin());
+//        if (getUserByUsername(user.getLogin()) != null) {
+//            System.out.println("Sorry, password!");
+//        }
+        System.out.println("Такого юзера пока нет");
+        em.persist(user);
     }
 
     @Override

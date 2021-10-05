@@ -5,36 +5,76 @@
     <title>Add user</title>
 </head>
 <body>
-Добавить пользователя:
+Добавить пользователя
 
 <br/>
 <br/>
-<form th:method="POST" th:action="@{/admin/new}" th:object="${user}">
-    <label for="name">Enter Name</label>
-    <input type="text" th:field="*{name}" id="name">
+
+<!--<form th:method="POST" th:action="@{/admin/createuser}" th:object="${user}">-->
+<!--    <label for="name">Enter Name</label>-->
+<!--    <input type="text" th:field="*{name}" id="name">-->
+<!--    <br/>-->
+<!--    <br/>-->
+<!--    <label for="lastname">Enter Last Name</label>-->
+<!--    <input type="text" th:field="*{lastName}" id="lastName">-->
+<!--    <br/>-->
+<!--    <br/>-->
+<!--    <label for="age">Enter Age</label>-->
+<!--    <input type="text" th:field="*{age}" id="age">-->
+<!--    <br/>-->
+<!--    <br/>-->
+<!--    <label for="login">Enter Login</label>-->
+<!--    <input type="text" th:field="*{login}" id="login">-->
+<!--    <br/>-->
+<!--    <br/>-->
+<!--    <label for="password">Enter Password</label>-->
+<!--    <input type="text" th:field="*{password}" id="password">-->
+<!--    <br/>-->
+<!--    <br/>-->
+<!--    <input type="submit" value=" Add User ">-->
+<!--</form>-->
+
+<div>
+    <form th:method="POST" th:action="@{/admin/createuser}" th:object="${user}">
+<!--          th:object="${user}"-->
+<!--          method="post">-->
+        <fieldset>
+            <legend>Данные пользователя</legend>
+            <p>
+                <label th:for="name">Имя
+                    <input type="text" name="name" th:id="name">
+                </label>
+                <br/>
+                <br/>
+                <label th:for="lastName">Фамилия<input type="text" name="lastName" th:id="lastName">
+                </label>
+                <br/>
+                <br/>
+                <label th:for="age">Возраст <input type="text" name="age" th:id="age">
+                </label>
+                <br/>
+                <br/>
+                <label th:for="login">Логин <input type="text" name="login" th:id="login">
+                </label>
+                <br/>
+                <br/>
+                <label th:for="password">Пароль <input type="text" name="password" th:id="password">
+                </label>
+                <br/>
+                <br/>
+<!--                <label>-->
+<!--                    <input type="checkbox" name="roleAdmin" th:value="ROLE_ADMIN" th:text="Администратор">-->
+<!--                </label>-->
+            </p>
+        </fieldset>
+        <br/>
+        <br/>
+        <button type="submit">Сохранить пользователя</button>
+        <br/>
+        <br/>
+    </form>
     <br/>
-    <br/>
-    <label for="lastname">Enter Last Name</label>
-    <input type="text" th:field="*{lastName}" id="lastName">
-    <br/>
-    <br/>
-    <label for="age">Enter Age</label>
-    <input type="text" th:field="*{age}" id="age">
-    <br/>
-    <br/>
-    <label for="login">Enter Login</label>
-    <input type="text" th:field="*{login}" id="login">
-    <br/>
-    <br/>
-    <label for="password">Enter Password</label>
-    <input type="text" th:field="*{age}" id="password">
-    <br/>
-    <br/>
-    <input type="submit" value=" Add User ">
-</form>
-<br/>
-</td>
-<a type="button" th:href="@{/}"> Выход </a>
-</td>
+    <a type="button" th:href="@{/}"> Выход </a>
+</div>
 </body>
 </html>

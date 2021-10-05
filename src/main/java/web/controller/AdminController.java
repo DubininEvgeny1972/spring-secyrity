@@ -47,21 +47,25 @@ public class AdminController {
 
     @PatchMapping("/{id}")
     public String editUser(@ModelAttribute("user") User user) {
+        System.out.println("edit user  " + user);
         user.setRoles(setRole);
         service.updateUser(user);
         return "redirect:/admin/adminpage";
     }
-//
-//    @GetMapping("/admin/new")
-//    public String addUser(@ModelAttribute("user") User user){
-//        return "new";
-//    }
 
-    @PostMapping("/admin/new")
-    public String createNewUser(@ModelAttribute("user") User user){
-        if (!service.saveUser(user)) {
-            return "adminpage";
-        }
+    @GetMapping("/adduser")
+    public String addUser(@ModelAttribute("user") User user){
+        return "new";
+    }
+
+    @PostMapping("/createuser")
+    public String createNewUser(@ModelAttribute("user") User user, ModelMap model) {
+        setRole.add(new Role("ROLE_USER"));
+//        user.setRoles(setRole);
+        System.out.println("Save user  " + user);
+        service.saveUser(user);
+        System.out.println("Ok, saving user!  " + user);
+        model.addAttribute("users", service.getAllUsers());
         return "redirect:/admin/adminpage";
     }
 

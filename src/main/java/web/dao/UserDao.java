@@ -14,7 +14,7 @@ public interface UserDao {
 
     List<User> getAllUsers();
 
-    boolean saveUser(User user);
+    void saveUser(User user);
 
     void updateUser(User user);
 
