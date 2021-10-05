@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns: lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Show User</title>
+</head>
+<body>
+Информация о пользователе:
+<br/>
+<br/>
+
+    <tr>
+        <th>Имя</th><br/>
+        <th>Фамилия</th><br/>
+        <th>Возраст</th><br/>
+        <th>Логин</th><br/>
+        <th>Пароль</th><br/>
+        <th>Права доступа</th><br/>
+    </tr>
+
+    <tr th:each="user, state : ${showUser}">
+        <td th:utext="${showUser.getName()}"></td><br/>
+        <td th:utext="${showUser.getLastName()}"></td><br/>
+        <td th:utext="${showUser.getAge()}"></td><br/>
+        <td th:utext="${showUser.getLogin()}"></td><br/>
+        <td th:utext="${showUser.getPassword()}"></td><br/>
+        <td th:utext="${showUser.getRoles()}"></td><br/>
+    </tr>
+</td>
+<a type="button" th:href="@{/}"> Выход </a>
+</td>
+
+</body>
+</html>

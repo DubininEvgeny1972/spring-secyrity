@@ -19,8 +19,12 @@ import java.util.Set;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
+
     private UserDao dao;
+    @Autowired
+    public CustomUserDetailsService(UserDao dao) {
+        this.dao = dao;
+    }
 
     private List<GrantedAuthority> getAuthoritiesEntities(Set<Role> userRoles) {
         Set<GrantedAuthority> roles = new HashSet<>();

@@ -1,24 +1,36 @@
 package web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
+import web.service.CustomUserDetailsService;
 import web.service.UserService;
 
+import java.security.Principal;
+
 @Controller
-@RequestMapping
+@RequestMapping("/user")
 public class UserController {
-
     private UserService service;
+    private CustomUserDetailsService customUserDetailsService;
 
-    public UserController(UserService service) {
+    @Autowired
+    public UserController(UserService service, CustomUserDetailsService customUserDetailsService) {
         this.service = service;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
-//    @PostMapping("/admin")
-//    public String fingUserById(ModelMap model, @PathVariable("name") String name, @PathVariable("name") String password) {
-//        model.addAttribute("user", service.getUserByUsername(name));
-//        return "showuser";
-//    }
+    @GetMapping("/thisuser")
+    public String getPrincipal(@CurrentSecurityContext(expression = "authentication.principal")
+                               Principal principal,
+                               Model model) {
+        System.out.println(principal.getName());
+        User tmp = service.getUserByUsername(principal.getName());
+        model.addAttribute("showUser", tmp);
+        return "thisuser";
+    }
 }

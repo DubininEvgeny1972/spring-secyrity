@@ -24,11 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
 
-    @Autowired
+//    @Autowired
     private CustomUserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
     private LoginSuccessHandler loginSuccessHandler; // класс, в котором описана логика перенаправления пользователей по ролям
 
-    public SecurityConfig(LoginSuccessHandler loginSuccessHandler) {
+    public SecurityConfig(LoginSuccessHandler loginSuccessHandler, CustomUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
         this.loginSuccessHandler = loginSuccessHandler;
     }
@@ -44,56 +44,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
         http.formLogin()
-                // указываем страницу с формой логина
-                .loginPage("/login")
-                //указываем логику обработки при логине
-                .successHandler(new LoginSuccessHandler())
-                // указываем action с формы логина
-                .loginProcessingUrl("/login")
-                // Указываем параметры логина и пароля с формы логина
-                .usernameParameter("j_username")
+                .loginPage("/login")// указываем страницу с формой логина
+                .successHandler(loginSuccessHandler)//указываем логику обработки при логине
+                .loginProcessingUrl("/login")// указываем action с формы логина
+                .usernameParameter("j_username")// Указываем параметры логина и пароля с формы логина
                 .passwordParameter("j_password")
-                // даем доступ к форме логина всем
-                .permitAll();
+                .permitAll();// даем доступ к форме логина всем
 
         http.logout()
-                // разрешаем делать логаут всем
-                .permitAll()
-                // указываем URL логаута
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                // указываем URL при удачном логауте
-                .logoutSuccessUrl("/login?admin")
-                //выключаем кросс-доменную секьюрность (на этапе обучения неважна)
-                .and().csrf().disable(); //- попробуйте выяснить сами, что это даёт
+                .permitAll()// разрешаем делать логаут всем
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))// указываем URL логаута
+                .logoutSuccessUrl("/login?logout")// указываем URL при удачном логауте
+                .and().csrf().disable(); //- попробуйте выяснить сами, что это даёт//выключаем кросс-доменную секьюрность (на этапе обучения неважна)
 
-        http
-//                // делаем страницу регистрации недоступной для авторизированных пользователей
-//                .authorizeRequests()
-//                .antMatchers("/login").permitAll() // доступность всем
-//                .antMatchers("/showuser").hasRole("USER")
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .anyRequest().authenticated();
-//
-//        httpSecurity
-//                .csrf()
-//                .disable()
-                .authorizeRequests()
-                //Доступ только для пользователей с ролью Администратор
+        http.authorizeRequests()
+                .antMatchers("/").permitAll() // доступность всем
+                .antMatchers("/login").anonymous()//страница аутентификации доступна всем
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user").hasRole("USER")
-                //Все остальные страницы требуют аутентификации
-                .anyRequest().authenticated()
-                .and()
-                //Настройка для входа в систему
-                .formLogin()
-                .loginPage("/login")
-                //Перенарпавление на главную страницу после успешного входа
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .logoutSuccessUrl("/");
+                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                .anyRequest().authenticated();
     }
 
     @Bean
