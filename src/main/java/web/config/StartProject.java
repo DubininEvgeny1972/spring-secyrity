@@ -10,10 +10,14 @@ import javax.annotation.PostConstruct;
 
 @Component
 public class StartProject {
-    @Autowired
+
     private UserService service;
-    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    public StartProject(UserService service, PasswordEncoder passwordEncoder) {
+        this.service = service;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostConstruct
     public void startProject() {
