@@ -1,15 +1,9 @@
 package web.dao;
 
-import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import web.model.Role;
 import web.model.User;
-
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

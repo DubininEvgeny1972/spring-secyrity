@@ -3,13 +3,10 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
-import web.service.CustomUserDetailsService;
 import web.service.UserService;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,12 +15,10 @@ import java.util.Set;
 public class AdminController {
     static Set<Role> setRole = new HashSet<>();
     private UserService service;
-    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    public AdminController(UserService service, CustomUserDetailsService customUserDetailsService) {
+    public AdminController(UserService service) {
         this.service = service;
-        this.customUserDetailsService = customUserDetailsService;
     }
 
     @GetMapping(value = "/adminpage")
