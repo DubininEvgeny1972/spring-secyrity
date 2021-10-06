@@ -60,11 +60,13 @@ public class AdminController {
 
     @PostMapping("/createuser")
     public String createNewUser(@ModelAttribute("user") User user, ModelMap model) {
-        setRole.add(new Role("ROLE_USER"));
+//        setRole.add(new Role("ROLE_USER"));
 //        user.setRoles(setRole);
         System.out.println("Save user  " + user);
         service.saveUser(user);
+//        user.setRoles(setRole);
         System.out.println("Ok, saving user!  " + user);
+//        service.updateUser(user);
         model.addAttribute("users", service.getAllUsers());
         return "redirect:/admin/adminpage";
     }

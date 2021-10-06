@@ -73,11 +73,10 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        System.out.println("Пытаюсь записать  "  + user.getLogin());
-//        if (getUserByUsername(user.getLogin()) != null) {
-//            System.out.println("Sorry, password!");
-//        }
-        System.out.println("Такого юзера пока нет");
+        Set<Role> tmp = new HashSet<>();
+        Role rol = em.find(Role.class, "ROLE_USER");
+        tmp.add(rol);
+        user.setRoles(tmp);
         em.persist(user);
     }
 
