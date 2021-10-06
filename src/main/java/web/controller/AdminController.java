@@ -15,6 +15,7 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController {
     static Set<Role> setRole = new HashSet<>();
+    static User referenceUser = new User();
     private UserService service;
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -38,7 +39,12 @@ public class AdminController {
 
     @GetMapping("/{id}/edit")
     public String edit(ModelMap model, @PathVariable("id") long id) {
-        setRole = service.getUser(id).getRoles();
+        User user = service.getUser(id);
+        setRole = user.getRoles();
+        referenceUser.setName(user.getName());
+        referenceUser.setLastName(user.getLastName());
+        referenceUser.setAge(user.getAge());
+        referenceUser.setLogin(user.getLogin());
         model.addAttribute("user", service.getUser(id));
         return "edit";
     }
@@ -46,7 +52,12 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String editUser(@ModelAttribute("user") User user) {
         user.setRoles(setRole);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (referenceUser.getName().equals(user.getName())
+                && referenceUser.getLastName().equals(user.getLastName())
+                && referenceUser.getAge().equals(user.getAge())
+                && referenceUser.getLogin().equals(user.getLogin())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         service.updateUser(user);
         return "redirect:/admin/adminpage";
     }
