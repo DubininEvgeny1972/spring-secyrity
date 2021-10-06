@@ -11,6 +11,7 @@ import web.model.Role;
 import web.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -49,8 +50,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public void saveUser(User user){
-        userDaoHiber.saveUser(user);
+    public void saveUser(User user, String roleAdmin, String roleUser){
+        userDaoHiber.saveUser(user, roleAdmin, roleUser);
     }
 
     @Transactional

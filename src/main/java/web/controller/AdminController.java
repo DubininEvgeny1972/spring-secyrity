@@ -47,7 +47,6 @@ public class AdminController {
 
     @PatchMapping("/{id}")
     public String editUser(@ModelAttribute("user") User user) {
-        System.out.println("edit user  " + user);
         user.setRoles(setRole);
         service.updateUser(user);
         return "redirect:/admin/adminpage";
@@ -59,14 +58,9 @@ public class AdminController {
     }
 
     @PostMapping("/createuser")
-    public String createNewUser(@ModelAttribute("user") User user, ModelMap model) {
-//        setRole.add(new Role("ROLE_USER"));
-//        user.setRoles(setRole);
-        System.out.println("Save user  " + user);
-        service.saveUser(user);
-//        user.setRoles(setRole);
-        System.out.println("Ok, saving user!  " + user);
-//        service.updateUser(user);
+    public String createNewUser(@ModelAttribute("user") User user, ModelMap model, @RequestParam(required=false) String roleAdmin,
+                                @RequestParam(required=false) String roleUser) {
+        service.saveUser(user, roleAdmin, roleUser);
         model.addAttribute("users", service.getAllUsers());
         return "redirect:/admin/adminpage";
     }

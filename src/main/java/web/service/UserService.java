@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import web.model.Role;
 import web.model.User;
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -11,7 +12,7 @@ public interface UserService {
 
     User getUser(Long id);
 
-    void saveUser(User user);
+    void saveUser(User user, String roleAdmin, String roleUser);
 
     void removeUserById(long id);
 

@@ -25,40 +25,7 @@ public class UserDaoHibernateImpl implements UserDao {
         em.merge(user);
     }
 
-    @PostConstruct
-    public void startProject() {
-        System.out.println("Hello!");
-//        Role role1 = new Role("ROLE_VIP");
-//        saveRole(role1);
-//        Role role2 = new Role("ROLE_USER");
-//        saveRole(role2);
-//        User user1 = new User();
-//        user1.setName("Jon");
-//        user1.setLastName("Lennon");
-//        user1.setAge((byte) 35);
-//        user1.setLogin("111");
-//        user1.setPassword("111");
-//
-//        Set<Role> roleFromUser1 = new HashSet<>();
-//        roleFromUser1.add(role1);
-//        user1.setRoles(roleFromUser1);
-//        System.out.println(user1);
-//
-//        User user2 = new User();
-//        user2.setName("Kirk");
-//        user2.setLastName("Duglas");
-//        user2.setAge((byte) 45);
-//        user2.setLogin("222");
-//        user2.setPassword("222");
-//        Set<Role> roleFromUser2 = new HashSet<>();
-//        roleFromUser1.add(role2);
-//        roleFromUser2.add(role1);
-//        user2.setRoles(roleFromUser1);
-//        System.out.println(user2);
-//        userDaoHiber.saveUser(user2);
-//        userDaoHiber.saveUser(user1);
 
-    }
     @Override
     public User getUserByUsername(String userName) {
         return em.createQuery("select userByUsername from User userByUsername where userByUsername.login = :usName", User.class)
@@ -72,12 +39,27 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public void saveUser(User user) {
-        Set<Role> tmp = new HashSet<>();
-        Role rol = em.find(Role.class, "ROLE_USER");
-        tmp.add(rol);
-        user.setRoles(tmp);
+    public void saveUser(User user, String roleAdmin, String roleUser) {
         em.persist(user);
+
+        Set<Role> roles = new HashSet<>();
+        if (roleAdmin != null && roleUser != null){
+            roles.add(em.createQuery("SELECT r FROM Role r WHERE r.name=:name", Role.class)
+                    .setParameter("name", "ROLE_ADMIN")
+                    .getSingleResult());
+            roles.add(em.createQuery("SELECT r FROM Role r WHERE r.name=:name", Role.class)
+                    .setParameter("name", "ROLE_USER")
+                    .getSingleResult());
+        } else if (roleAdmin != null)  {
+            roles.add(em.createQuery("SELECT r FROM Role r WHERE r.name=:name", Role.class)
+                    .setParameter("name", "ROLE_ADMIN")
+                    .getSingleResult());
+        } else {
+            roles.add(em.createQuery("SELECT r FROM Role r WHERE r.name=:name", Role.class)
+                    .setParameter("name", "ROLE_USER")
+                    .getSingleResult());
+        }
+        user.setRoles(roles);
     }
 
     @Override
