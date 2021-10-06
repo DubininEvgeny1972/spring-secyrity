@@ -12,13 +12,6 @@ import web.service.CustomUserDetailsService;
 @RequestMapping
 public class LoginController {
 
-    private CustomUserDetailsService customUserDetailsService;
-
-    @Autowired
-    public LoginController(CustomUserDetailsService customUserDetailsService) {
-        this.customUserDetailsService = customUserDetailsService;
-    }
-
     @GetMapping(value = "/")
     public String getLoginPage() {
         return "login";

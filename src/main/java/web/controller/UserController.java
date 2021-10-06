@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.CustomUserDetailsService;
@@ -16,12 +15,10 @@ import java.security.Principal;
 @RequestMapping("/user")
 public class UserController {
     private UserService service;
-    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    public UserController(UserService service, CustomUserDetailsService customUserDetailsService) {
+    public UserController(UserService service) {
         this.service = service;
-        this.customUserDetailsService = customUserDetailsService;
     }
 
     @GetMapping("/thisuser")
