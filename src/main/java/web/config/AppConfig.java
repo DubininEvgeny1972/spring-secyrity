@@ -51,9 +51,10 @@ public class AppConfig {
         entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
 
         Properties props = new Properties();
-        entityManagerFactory.setJpaProperties(props);
         props.put("hibernate.show_sql", env.getRequiredProperty("hibernate.show_sql"));
         props.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        props.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
+        entityManagerFactory.setJpaProperties(props);
         return entityManagerFactory;
     }
 
