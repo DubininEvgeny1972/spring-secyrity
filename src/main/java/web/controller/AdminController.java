@@ -15,7 +15,8 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController {
     static Set<Role> setRole = new HashSet<>();
-    static User referenceUser = new User();
+
+    String referensePassword;
 
     private UserService service;
     private PasswordEncoder passwordEncoder;
@@ -42,10 +43,7 @@ public class AdminController {
     public String edit(ModelMap model, @PathVariable("id") long id) {
         User user = service.getUser(id);
         setRole = user.getRoles();
-        referenceUser.setName(user.getName());
-        referenceUser.setLastName(user.getLastName());
-        referenceUser.setAge(user.getAge());
-        referenceUser.setLogin(user.getLogin());
+        referensePassword = user.getPassword();
         model.addAttribute("user", service.getUser(id));
         return "edit";
     }
@@ -53,10 +51,7 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String editUser(@ModelAttribute("user") User user) {
         user.setRoles(setRole);
-        if (referenceUser.getName().equals(user.getName())
-                && referenceUser.getLastName().equals(user.getLastName())
-                && referenceUser.getAge().equals(user.getAge())
-                && referenceUser.getLogin().equals(user.getLogin())) {
+        if (!referensePassword.equals(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         service.updateUser(user);
