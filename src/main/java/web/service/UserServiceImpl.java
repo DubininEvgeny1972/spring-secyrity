@@ -1,5 +1,6 @@
 package web.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +16,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserDao userDaoHiber;
-
+    @Autowired
     public UserServiceImpl(UserDao userDaoHiber) {
         this.userDaoHiber = userDaoHiber;
     }

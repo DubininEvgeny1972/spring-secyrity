@@ -16,13 +16,14 @@ import java.util.Set;
 public class AdminController {
     static Set<Role> setRole = new HashSet<>();
     static User referenceUser = new User();
+
     private UserService service;
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminController(UserService service) {
+    public AdminController(UserService service, PasswordEncoder passwordEncoder) {
         this.service = service;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping(value = "/adminpage")

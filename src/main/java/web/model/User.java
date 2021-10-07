@@ -1,9 +1,7 @@
 package web.model;
 
-import com.sun.org.apache.xpath.internal.objects.XString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
@@ -34,8 +32,6 @@ public class User implements UserDetails {
     @Column
     private String password;
 
-    @Transient
-    private String passwordConfirm;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = { @JoinColumn(name = "user_id") },
