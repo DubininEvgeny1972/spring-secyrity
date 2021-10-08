@@ -13,15 +13,10 @@ import javax.persistence.PersistenceContext;
 
 @Repository
 public class UserDaoImpl implements UserDao {
-
-//    private final PasswordEncoder passwordEncoder;
-
     @PersistenceContext
     private EntityManager em;
-//    @Autowired
-//    public UserDaoImpl(PasswordEncoder passwordEncoder) {
-//        this.passwordEncoder = passwordEncoder;
-//    }
+
+
 
     public void updateUser(User user) {
         em.merge(user);
@@ -42,6 +37,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void saveUser(User user, Set<Role> roles) {
+
         em.persist(user);
         Set<Role> roleFromSaveUser = new HashSet<>();
         for(Role role: roles) {

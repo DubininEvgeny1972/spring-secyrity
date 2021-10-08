@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    static Set<Role> setRole = new HashSet<>();
-
     String referensePassword;
 
     private final UserService service;
@@ -45,19 +43,12 @@ public class AdminController {
 
     @GetMapping("/{id}/edit")
     public String edit(ModelMap model, @PathVariable("id") long id) {
-        User user = service.getUser(id);
-        setRole = user.getRoles();
-        referensePassword = user.getPassword();
         model.addAttribute("user", service.getUser(id));
         return "edit";
     }
 
     @PatchMapping("/{id}")
     public String editUser(@ModelAttribute("user") User user) {
-        user.setRoles(setRole);
-        if (!referensePassword.equals(user.getPassword())) {
-            user.setPassword(user.getPassword());
-        }
         service.updateUser(user);
         return "redirect:/admin/adminpage";
     }
@@ -74,7 +65,6 @@ public class AdminController {
 //    @PostMapping("/createuser")
     @RequestMapping(value = "/createuser", method = RequestMethod.POST)
     public String createNewUser(@ModelAttribute("user") User user, ModelMap model, @ModelAttribute("roles") Set<Role> roles) {
-//        user.setPassword(user.getPassword());
         service.saveUser(user, user.getRoles());
         model.addAttribute("users", service.getAllUsers());
         return "redirect:/admin/adminpage";

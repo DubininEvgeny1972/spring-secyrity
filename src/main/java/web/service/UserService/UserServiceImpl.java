@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao.UserDao;
@@ -15,52 +16,58 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-
-    private UserDao userDaoHiber;
+    private PasswordEncoder passwordEncoder;
+    private UserDao userDao;
     @Autowired
-    public UserServiceImpl(UserDao userDaoHiber) {
-        this.userDaoHiber = userDaoHiber;
+    public UserServiceImpl(UserDao userDaoHiber, PasswordEncoder passwordEncoder) {
+        this.userDao = userDaoHiber;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
-        return userDaoHiber.getUserByUsername(username);
+        return userDao.getUserByUsername(username);
     }
 
     @Transactional
     @Override
     public User getUserByUsername(String userName){
-        return userDaoHiber.getUserByUsername(userName);
+        return userDao.getUserByUsername(userName);
     }
 
     @Transactional
     @Override
     public User getUser(Long id){
-        return userDaoHiber.getUser(id);
+        return userDao.getUser(id);
     }
 
     @Transactional
     @Override
     public void saveUser(User user, Set<Role> roles){
-        userDaoHiber.saveUser(user, roles);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.saveUser(user, roles);
     }
 
     @Transactional
     @Override
     public void removeUserById(long id){
-        userDaoHiber.removeUserById(id);
+        userDao.removeUserById(id);
     }
 
     @Transactional
     @Override
     public List<User> getAllUsers(){
-        return userDaoHiber.getAllUsers();
+        return userDao.getAllUsers();
     }
 
     @Transactional
     @Override
     public void updateUser(User user) {
-        userDaoHiber.updateUser(user);
+        user.setRoles(userDao.getUser(user.getId()).getRoles());
+        if (!user.getPassword().equals(userDao.getUser(user.getId()).getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        userDao.updateUser(user);
     }
 }
