@@ -2,10 +2,8 @@ package web.dao.RoleDao;
 
 import org.springframework.stereotype.Repository;
 import web.model.Role;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

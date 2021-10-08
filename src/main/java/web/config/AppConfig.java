@@ -43,7 +43,7 @@ public class AppConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean getEntityManagerFactoryBean()  throws PropertyVetoException {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean(); // HibernateExceptions, PersistenceExceptions... to DataAccessException
+        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 
         entityManagerFactory.setDataSource(dataSource());
         entityManagerFactory.setPackagesToScan("web.model");

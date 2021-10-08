@@ -9,9 +9,7 @@ import java.util.Set;
 
 @Entity
 public class User implements UserDetails {
-    public void setId(Long id) {
-        this.id = id;
-    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +41,9 @@ public class User implements UserDetails {
 
     public String toString(){
         return "Id:  " + getId() + "  Name: " + getName() + "   Last Name: " + getLastName() + "  Age: " + getAge() + "   Login: " + getLogin() + "   Password: " + getPassword() + "   Roles: " + getRoles().toString();
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

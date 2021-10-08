@@ -19,8 +19,8 @@ import web.service.CustomUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private CustomUserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
-    private LoginSuccessHandler loginSuccessHandler; // класс, в котором описана логика перенаправления пользователей по ролям
+    private CustomUserDetailsService userDetailsService;
+    private LoginSuccessHandler loginSuccessHandler;
     @Autowired
     public SecurityConfig(LoginSuccessHandler loginSuccessHandler, CustomUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -39,30 +39,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
         http.formLogin()
-                .loginPage("/")// указываем страницу с формой логина
-                .successHandler(loginSuccessHandler)//указываем логику обработки при логине
-                .loginProcessingUrl("/login")// указываем action с формы логина
-                .usernameParameter("j_username")// Указываем параметры логина и пароля с формы логина
+                .loginPage("/")
+                .successHandler(loginSuccessHandler)
+                .loginProcessingUrl("/login")
+                .usernameParameter("j_username")
                 .passwordParameter("j_password")
-                .permitAll();// даем доступ к форме логина всем
+                .permitAll();
 
         http.logout()
-                .permitAll()// разрешаем делать логаут всем
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))// указываем URL логаута
-                .logoutSuccessUrl("/login?logout")// указываем URL при удачном логауте
-                .and().csrf().disable(); //- попробуйте выяснить сами, что это даёт//выключаем кросс-доменную секьюрность (на этапе обучения неважна)
+                .permitAll()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
+                .and().csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/").permitAll() // доступность всем
-                .antMatchers("/login").anonymous()//страница аутентификации доступна всем
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").anonymous()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated();
     }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();
-//    }
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         PasswordEncoder encoder = new BCryptPasswordEncoder();

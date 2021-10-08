@@ -1,7 +1,5 @@
 package web.dao.UserDao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import web.model.Role;
 import web.model.User;
@@ -16,12 +14,9 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager em;
 
-
-
     public void updateUser(User user) {
         em.merge(user);
     }
-
 
     @Override
     public User getUserByUsername(String userName) {
@@ -37,15 +32,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void saveUser(User user, Set<Role> roles) {
-
         em.persist(user);
-        Set<Role> roleFromSaveUser = new HashSet<>();
+        Set<Role> roleForSaveUser = new HashSet<>();
         for(Role role: roles) {
-            roleFromSaveUser.add(em.createQuery("SELECT r FROM Role r WHERE r.name=:name", Role.class)
+            roleForSaveUser.add(em.createQuery("SELECT r FROM Role r WHERE r.name=:name", Role.class)
                     .setParameter("name", role.toString())
                     .getSingleResult());
         }
-        user.setRoles(roleFromSaveUser);
+        user.setRoles(roleForSaveUser);
     }
 
     @Override
