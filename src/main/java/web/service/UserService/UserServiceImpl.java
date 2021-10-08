@@ -1,0 +1,66 @@
+package web.service.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import web.dao.UserDao.UserDao;
+import web.model.Role;
+import web.model.User;
+import java.util.List;
+import java.util.Set;
+
+@Service
+public class UserServiceImpl implements UserService, UserDetailsService {
+
+    private UserDao userDaoHiber;
+    @Autowired
+    public UserServiceImpl(UserDao userDaoHiber) {
+        this.userDaoHiber = userDaoHiber;
+    }
+
+    @Transactional
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+        return userDaoHiber.getUserByUsername(username);
+    }
+
+    @Transactional
+    @Override
+    public User getUserByUsername(String userName){
+        return userDaoHiber.getUserByUsername(userName);
+    }
+
+    @Transactional
+    @Override
+    public User getUser(Long id){
+        return userDaoHiber.getUser(id);
+    }
+
+    @Transactional
+    @Override
+    public void saveUser(User user, Set<Role> roles){
+        userDaoHiber.saveUser(user, roles);
+    }
+
+    @Transactional
+    @Override
+    public void removeUserById(long id){
+        userDaoHiber.removeUserById(id);
+    }
+
+    @Transactional
+    @Override
+    public List<User> getAllUsers(){
+        return userDaoHiber.getAllUsers();
+    }
+
+    @Transactional
+    @Override
+    public void updateUser(User user) {
+        userDaoHiber.updateUser(user);
+    }
+}

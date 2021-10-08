@@ -5,41 +5,48 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import web.model.Role;
 import web.model.User;
-import web.service.UserService;
+import web.service.RoleService.RoleService;
+import web.service.UserService.UserService;
 import javax.annotation.PostConstruct;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class StartProject {
 
-    private UserService service;
-    private PasswordEncoder passwordEncoder;
+    private final UserService service;
+    private final RoleService roleService;
+
     @Autowired
-    public StartProject(UserService service, PasswordEncoder passwordEncoder) {
+    public StartProject(UserService service, RoleService roleService) {
         this.service = service;
-        this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @PostConstruct
     public void startProject() {
-        System.out.println("Hello!");
-        service.saveRole(new Role("ROLE_USER"));
-        service.saveRole(new Role("ROLE_ADMIN"));
-
         User user1 = new User();
         user1.setName("Bob");
         user1.setLastName("Dillan");
         user1.setAge((byte) 48);
         user1.setLogin("111");
-        user1.setPassword(passwordEncoder.encode("111"));
-        service.saveUser(user1, null, "ROLE_USER");
-
+        user1.setPassword("111");
         User user2 = new User();
         user2.setName("Susana");
         user2.setLastName("Marpl");
         user2.setAge((byte) 35);
         user2.setLogin("222");
-        user2.setPassword(passwordEncoder.encode("222"));
-        service.saveUser(user2, "ROLE_ADMIN", "ROLE_USER");
+        user2.setPassword("222");
 
+        Role role1 = new Role("ROLE_ADMIN");
+        Role role2 = new Role("ROLE_USER");
+        Set<Role> setStartRoles = new HashSet<>();
+        setStartRoles.add(role1);
+        setStartRoles.add(role2);
+        roleService.saveRole(setStartRoles);
+        service.saveUser(user1, setStartRoles.stream().limit(1).collect(Collectors.toSet()));
+        service.saveUser(user2, setStartRoles);
     }
 }

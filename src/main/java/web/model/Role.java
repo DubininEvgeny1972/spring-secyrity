@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Entity
 public class Role implements GrantedAuthority {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +34,9 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
+    public Long getId() {
+        return id;
+    }
 
     @Override
     public String getAuthority() {
